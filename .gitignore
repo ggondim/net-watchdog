@@ -1,0 +1,6 @@
+/var/log/net-watchdog.log
+/tmp/net-watchdog-dry.log
+*.swp
+.DS_Store
+.idea/
+.vscode/
