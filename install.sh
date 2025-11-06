@@ -17,11 +17,13 @@ cp -r ./* "$PREFIX/"
 chown -R root:root "$PREFIX"
 chmod +x "$PREFIX"/*.sh
 
-# Create safe defaults file
+# Create defaults file (WARNING: enables real reboot)
 cat > "$DEFAULTS_FILE" <<'EOF'
 # /etc/default/net-watchdog
-# DRY_RUN=1 prevents the script from rebooting the system (safe default)
-DRY_RUN=1
+# DRY_RUN=0 enables real reboot when the watchdog detects restoration after outage.
+# Be sure you understand the risk: the system will reboot automatically when network
+# is restored after a prolonged outage. Installer sets DRY_RUN=0 as requested.
+DRY_RUN=0
 EOF
 
 # Install systemd unit
@@ -31,5 +33,6 @@ chmod 644 "$SERVICE_DST"
 systemctl daemon-reload
 systemctl enable --now net-watchdog.service
 
-echo "Installation complete. Service enabled and started in DRY_RUN mode."
-echo "To enable real reboot: edit $DEFAULTS_FILE and set DRY_RUN=0, then 'systemctl restart net-watchdog.service'"
+echo "Installation complete. Service enabled and started with DRY_RUN=0 (real reboot enabled)."
+echo "WARNING: the service will reboot the system automatically when network restoration is detected."
+echo "If you want to disable automatic reboot, set DRY_RUN=1 in $DEFAULTS_FILE and restart the service."

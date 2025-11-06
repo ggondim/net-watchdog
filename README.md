@@ -21,7 +21,8 @@ Files included
 
 Usage (install)
 ```bash
-# run as root or with sudo
+# IMPORTANT: installer requires root privileges and will enable automatic reboot by default.
+# Run with sudo or as root. This will install files under /opt and register a systemd service.
 sudo bash install.sh
 ```
 
