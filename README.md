@@ -56,3 +56,5 @@ Security and recommendations
 - Ensure you have console access before enabling real reboot on a critical machine.
 
 License: MIT
+
+_This tested repository was made 100% by GitHub Copilot (GPT-5-mini)_
