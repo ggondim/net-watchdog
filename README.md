@@ -14,7 +14,7 @@ Files included
 - `watchdog_dry.sh` — test script (never reboots).
 - `net-watchdog.service` — systemd unit file.
 - `config.env` — example configuration file.
-- `install.sh` — installer script (copies files to /opt, creates /etc/default/net-watchdog with safe defaults, installs the unit and starts it in DRY_RUN mode).
+- `install.sh` — installer script (copies files to /opt, creates `/etc/default/net-watchdog` and installs the systemd unit). NOTE: installer now enables `DRY_RUN=0` by default (real reboot enabled).
 - `uninstall.sh` — uninstaller script (stops service, disables and removes files).
 - `LICENSE` — MIT license.
 - `.gitignore` — ignores logs and system files.
@@ -26,12 +26,14 @@ Usage (install)
 sudo bash install.sh
 ```
 
-The installer will place files under `/opt/net-watchdog` and enable the `net-watchdog.service`. By default the service starts with `DRY_RUN=1` to avoid accidental reboots.
+The installer will place files under `/opt/net-watchdog` and enable the `net-watchdog.service`.
 
-Enable real reboot (read carefully!)
-1. Edit `/etc/default/net-watchdog` and set `DRY_RUN=0`.
-2. Reload systemd and restart the service:
+IMPORTANT: the installer now configures `/etc/default/net-watchdog` with `DRY_RUN=0` by default — that means the service will perform a real reboot when it detects network restoration after a prolonged outage. Be sure you want that behavior before running the installer.
+
+If you want to keep the service from rebooting automatically after installation, disable it by setting `DRY_RUN=1` and restarting the service:
+
 ```bash
+echo 'DRY_RUN=1' | sudo tee /etc/default/net-watchdog
 sudo systemctl daemon-reload
 sudo systemctl restart net-watchdog.service
 ```
