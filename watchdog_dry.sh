@@ -24,7 +24,7 @@ main(){
   local end=$((SECONDS+30))
   while [ "$SECONDS" -lt "$end" ]; do
     if check; then
-      if [ "$down_count" -ge 1 ]; then
+      if [ "$down_count" -ge "$DOWN_THRESHOLD" ]; then
         log "(DRY) Connectivity restored after $down_count failures. (not rebooting)"
       fi
       down_count=0

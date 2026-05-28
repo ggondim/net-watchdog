@@ -62,7 +62,7 @@ main() {
 
   while true; do
     if check; then
-      if [ "$down_count" -ge 1 ]; then
+      if [ "$down_count" -ge "$DOWN_THRESHOLD" ]; then
         log "Connectivity restored after ${down_count} failures."
         if [ "$DRY_RUN" -eq 1 ]; then
           log "DRY_RUN=1 -> not rebooting (log only)."
